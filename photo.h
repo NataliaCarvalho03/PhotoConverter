@@ -18,7 +18,8 @@ class photo
         std::vector<photo> separatePhotos(std::vector< std::vector<std::string> > myData);
         void loadExteriorOrientation(); // This function organizes the EOP
         void convertToPx();
-        static void convertToLPS(std::vector<std::string> photosToconvert, std::vector<photo> allPhotos); //Write a file with tie points to LPS
+        static void convertToLPS(std::vector<std::string> photosToconvert, std::vector<photo> allPhotos);
+        static void convertToLPS(std::vector<photo> allPhotos); //Write a file with tie points to LPS
         static std::vector<std::string> definePhotosToBeConverted();
 };
 

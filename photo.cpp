@@ -38,12 +38,16 @@ void photo::convertToPx(){
 
 std::vector< std::vector<std::string> > photo::loadPointsAndPhotos(){
 
-    std::ifstream infile("ties.txt", std::ifstream::in);
+    std::string filePath;
+
+    std::cout << "Digite o caminho para o arquivo com os pontos de Tie: " << std::endl;
+    getline(std::cin, filePath);
+
+
+    std::ifstream infile(filePath, std::ifstream::in);
     std::vector< std::vector<std::string> > data;
 
-    if (!infile){
-        std::cout << "Problem on reading the file !!" << std::endl;
-    }
+    infile ? std::cout << "Arquivo lido com sucesso!" << std::endl : std::cout << "Leitura falhou!" << std::endl;
 
     std::string line;
     while (std::getline(infile, line))
@@ -83,28 +87,39 @@ std::vector<std::string> photo::definePhotosToBeConverted()
     std::cout << "Digite os números das fotografias que você quer gravar separados por espaço \nDigite all para que todas sejam gravadas: " << std::endl;
     std::getline(std::cin, photoNumbers);
 
-    int nDelimiter = 0, nUserPhotos = 0;
 
-    for(int i=0; i < photoNumbers.size(); i++){
 
-        if (photoNumbers.at(i) == delimiter){
-            nDelimiter = nDelimiter + 1;
+    if (photoNumbers != "all"){
+
+        int nDelimiter = 0, nUserPhotos = 0;
+
+        for(int i=0; i < photoNumbers.size(); i++){
+
+            if (photoNumbers.at(i) == delimiter){
+                nDelimiter = nDelimiter + 1;
+
+            }
 
         }
 
+        nUserPhotos = ++nDelimiter; // Número de fotos que o usuário digitou
+
+        std::istringstream s;
+        s.str(photoNumbers);
+
+        for (int i=0; i < nUserPhotos; i++){
+            s >> aux;
+            userPhotosID.push_back(photoPrefix + aux + photoSufix);
+        }
+
+        return userPhotosID;
+
+    } else {
+        userPhotosID.push_back("all");
+        return userPhotosID;
     }
 
-    nUserPhotos = ++nDelimiter; // Número de fotos que o usuário digitou
 
-    std::istringstream s;
-    s.str(photoNumbers);
-
-    for (int i=0; i < nUserPhotos; i++){
-        s >> aux;
-        userPhotosID.push_back(photoPrefix + aux + photoSufix);
-    }
-
-    return userPhotosID;
 
 }
 
@@ -182,6 +197,16 @@ void photo::convertToLPS(std::vector<std::string> photosToconvert, std::vector<p
         std::cout << "Aquivo gravado, " << nPhoto.points.size() << " gravados!" << std::endl;
 }
 
+void photo::convertToLPS(std::vector<photo> aPhotos){
+
+    for (int i=0; i < aPhotos.size(); i++){
+
+
+
+    }
+
+}
+
 
 
  std::vector<photo> photo::separatePhotos(std::vector< std::vector<std::string> > myData){
@@ -235,9 +260,11 @@ int main(){
         separatedPhotos.at(i).convertToPx();
     }
 
-
-    photo::convertToLPS(photosToBeConverted, separatedPhotos);
-
+    if (photosToBeConverted.at(0) == "all"){
+        std::cout << "Vou escrever todas as fotos, hein, arrombado!" << std::endl;
+    }else{
+        photo::convertToLPS(photosToBeConverted, separatedPhotos);
+    }
 
 
     //for (int i = 0; i < separatedPhotos.size(); i++){
