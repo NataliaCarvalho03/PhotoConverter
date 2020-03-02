@@ -10,7 +10,7 @@
 
 photo::photo()
 {
-    //Ainda não sei o que colocar no construtor da classe
+    //Ainda nï¿½o sei o que colocar no construtor da classe
 }
 
 void photo::convertToPx(){
@@ -82,9 +82,9 @@ std::vector<std::string> photo::definePhotosToBeConverted()
     std::vector<std::string> userPhotosID;
     char delimiter = ' ';
 
-    // ----------------- Separando as fotos que o usuário quer -----------------------------------#
+    // ----------------- Separando as fotos que o usuario quer -----------------------------------#
 
-    std::cout << "Digite os números das fotografias que você quer gravar separados por espaço \nDigite all para que todas sejam gravadas: " << std::endl;
+    std::cout << "Digite os nï¿½meros das fotografias que vocï¿½ quer gravar separados por espaï¿½o \nDigite all para que todas sejam gravadas: " << std::endl;
     std::getline(std::cin, photoNumbers);
 
 
@@ -102,7 +102,7 @@ std::vector<std::string> photo::definePhotosToBeConverted()
 
         }
 
-        nUserPhotos = ++nDelimiter; // Número de fotos que o usuário digitou
+        nUserPhotos = ++nDelimiter; // Nï¿½mero de fotos que o usuï¿½rio digitou
 
         std::istringstream s;
         s.str(photoNumbers);
@@ -146,7 +146,7 @@ void photo::convertToLPS(std::vector<std::string> photosToconvert, std::vector<p
     newPhoto1 = photosToWrite.at(0);
     newPhoto2.ID =  photosToWrite.at(1).ID;
 
-    // Procurar por pontos com o mesmo identificador e colocá-los em um novo vetor
+    // Procurar por pontos com o mesmo identificador e colocï¿½-los em um novo vetor
 
     int menor = newPhoto1.points.size();
 
@@ -160,7 +160,7 @@ void photo::convertToLPS(std::vector<std::string> photosToconvert, std::vector<p
 
     for(int i=1; i < photosToWrite.size(); i++){
         for(int j=0; j < menor; j++){ //Vai percorrer a foto fixa
-                for(int k=0; k < menor; k++ ){ //Vai percorrer as próximas fotos
+                for(int k=0; k < menor; k++ ){ //Vai percorrer as prï¿½ximas fotos
 
                     if(newPhoto1.points.at(j).at(0) == photosToWrite.at(i).points.at(k).at(0)){
 
@@ -197,13 +197,44 @@ void photo::convertToLPS(std::vector<std::string> photosToconvert, std::vector<p
         std::cout << "Aquivo gravado, " << nPhoto.points.size() << " gravados!" << std::endl;
 }
 
-void photo::convertToLPS(std::vector<photo> aPhotos){
+std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 
-    for (int i=0; i < aPhotos.size(); i++){
+    std::vector<tiePoint> my_ties;
 
+    for (int i=0; i < aPhotos.size(); i++){ //Foto fixa
+        for (int j=0; j < aPhotos.at(i).points.size(); j++){// ponto fixo
 
+            std::string ID = aPhotos.at(i).points.at(j).at(0);
+            std::vector<std::vector<std::string>> points_aux; // Coordenadas dos pontos homologos identificados
+            std::vector<std::string> photos_ID_aux; //Identificadores das fotos nas quais o ponto foi observado
+            tiePoint new_tie(ID, photos_ID_aux, points_aux);
+
+            for (int photo = i+1; photo < aPhotos.size(); photo++){ //Proximas fotos
+
+                for (int point = 0; point < aPhotos.at(photo).points.size(); point++){ //Pontos nas prï¿½ximas fotos
+
+                    if (aPhotos.at(photo).points.at(point).at(0) == ID){
+                        //std::cout << "Encontrei!" << std::endl;
+                        new_tie.photo_ID.push_back(aPhotos.at(photo).ID);
+                        std::vector<std::string> point_aux;
+                        point_aux.push_back(aPhotos.at(photo).points.at(point).at(1));
+                        point_aux.push_back(aPhotos.at(photo).points.at(point).at(2));
+                        new_tie.points.push_back(point_aux);
+
+                    }
+                }
+            }
+
+            my_ties.push_back(new_tie);
+        }
+
+        std::cout << "Photo " << aPhotos.at(i).ID << "concluded!" << std::endl;
 
     }
+
+    std::cout << "Numero de ties: " << my_ties.size() << std::endl;
+
+    return my_ties;
 
 }
 
@@ -235,42 +266,34 @@ void photo::convertToLPS(std::vector<photo> aPhotos){
             if (isPopulated)
                 mySeparatedPhotos.push_back(fPhoto);
 
-            }
+    }
 
             std::cout << mySeparatedPhotos.size() << " Photos separated!" << std::endl;
 
             return mySeparatedPhotos;
 
+}
+
+void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photos){
+
+    std::ofstream LPSFile;
+    LPSFile.open("all_pointsLPS.txt");
+    std::string tab = "\t";
+
+    for (int i = 0; i < photos.size(); i++){
+        for (int j = 0; j < points.size(); j++){
+            for (int k = 0; k < points.at(j).photo_ID.size(); k++){
+
+                if (photos.at(i).ID == points.at(j).photo_ID.at(k)){
+                    LPSFile << std::to_string(i+1) << points.at(j).points.at(k).at(0) <<
+                        tab << std::to_string(i+1) << points.at(j).points.at(k).at(1) << std::endl;
+                }
+
+            }
+            
+        }
     }
 
+    LPSFile.close();
 
-
-int main(){
-
-    std::cout << "Hello hell" << std::endl;
-
-    photo myPhotos;
-
-    std::vector< std::vector<std::string> > myPhotosData = myPhotos.loadPointsAndPhotos();
-    std::vector<photo> separatedPhotos = myPhotos.separatePhotos(myPhotosData);
-
-    std::vector<std::string> photosToBeConverted = photo::definePhotosToBeConverted();
-
-    for (int i = 0; i < separatedPhotos.size(); i++){
-        separatedPhotos.at(i).convertToPx();
-    }
-
-    if (photosToBeConverted.at(0) == "all"){
-        std::cout << "Vou escrever todas as fotos, hein, arrombado!" << std::endl;
-    }else{
-        photo::convertToLPS(photosToBeConverted, separatedPhotos);
-    }
-
-
-    //for (int i = 0; i < separatedPhotos.size(); i++){
-        //separatedPhotos.at(i).convertToLPS();
-    //}
-
-
-    return 0;
 }
