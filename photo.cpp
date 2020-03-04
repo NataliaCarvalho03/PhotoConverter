@@ -199,6 +199,8 @@ void photo::convertToLPS(std::vector<std::string> photosToconvert, std::vector<p
 
 std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 
+    std::cout << "====================== Organizing Tie Points =============================" << std::endl;
+
     std::vector<tiePoint> my_ties;
 
     for (int i=0; i < aPhotos.size(); i++){ //Foto fixa
@@ -242,6 +244,8 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 
  std::vector<photo> photo::separatePhotos(std::vector< std::vector<std::string> > myData){
 
+    std::cout << "====================== Separating Photos =============================" << std::endl;
+
     std::vector<photo> mySeparatedPhotos;
     std::string photoID = "DJI_";
 
@@ -280,16 +284,36 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     LPSFile.open("all_pointsLPS.txt");
     std::string tab = "\t";
 
-    for (int i = 0; i < photos.size(); i++){
+    std::cout << "====================== Writing Tie Points in LPS format =============================" << std::endl;
+
+    /*for (int i = 0; i < photos.size(); i++){
         for (int j = 0; j < points.size(); j++){
             for (int k = 0; k < points.at(j).photo_ID.size(); k++){
 
                 if (photos.at(i).ID == points.at(j).photo_ID.at(k)){
-                    LPSFile << std::to_string(i+1) << points.at(j).points.at(k).at(0) <<
-                        tab << std::to_string(i+1) << points.at(j).points.at(k).at(1) << std::endl;
+                    LPSFile << std::to_string(i+1) << tab << points.at(j).points.at(k).at(0) <<
+                        tab << std::to_string(i+1) << tab << points.at(j).points.at(k).at(1) << std::endl;
                 }
 
             }
+            
+        }
+    }*/
+
+    for (int i = 0; i < points.size(); i++){ //Ponto
+        
+        for (int j = 0; j < photos.size(); j++){ //Photo
+
+            for (int k = 0; k < photos.at(j).points.size(); k++){ //Point in Photo
+
+                if(points.at(i).point_ID == photos.at(j).points.at(k).at(0)){
+
+                    LPSFile << std::to_string(j+1) << tab << photos.at(j).points.at(k).at(1) <<
+                        tab << std::to_string(j+1) << tab << photos.at(j).points.at(k).at(2) << std::endl;
+
+                }
+            }
+
             
         }
     }
