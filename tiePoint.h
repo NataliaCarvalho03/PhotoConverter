@@ -13,9 +13,6 @@ class tiePoint
         std::vector<std::vector<std::string>> points; //As coordenadas deste ponto nestas fotos
 
         tiePoint(std::string p_ID, std::vector<std::string> ph_ID, std::vector<std::vector<std::string>> pts); //Construtor
-       
-
-
 
 };
 
