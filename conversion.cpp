@@ -20,7 +20,7 @@ int main(){
     std::vector<tiePoint> tiePoints;
 
     if (photosToBeConverted.at(0) == "all"){
-        std::cout << "Vou escrever todas as fotos, hein, arrombado!" << std::endl;
+        std::cout << "Vou escrever todas as fotos!" << std::endl;
         tiePoints = photo::organizePoints(separatedPhotos);
         photo::writeTiePoints(tiePoints, separatedPhotos);
     }else{

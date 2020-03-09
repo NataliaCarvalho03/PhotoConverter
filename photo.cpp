@@ -301,21 +301,25 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     }*/
 
 
-    for (int i = 0; i < points.size(); i++){ //Ponto
+    for (int i = 0; i < points.size(); i++){
 
-        for (int j = 0; j < points.at(i).photo_ID.size(); j++){ //Photos no ponto
+        for (int j = 0; j < points.at(i).photo_ID.size(); j++){
 
-            for (int k = 0; k < photos.size(); k++){ // Photos
+            for (int p = 0; p < photos.size(); p++){
 
-                if (photos.at(k).ID == points.at(i).photo_ID.at(j)){
+                if (photos.at(p).ID == points.at(i).photo_ID.at(j)){
 
-                    //LPSFile << std::to_string(k+1) << tab << points.at(i).points.at(0) <<
-                        //tab << std::to_string(k+1) << tab << points.at(i).points.at(1) << std::endl;
+                    for (int k = 0; k < photos.at(p).points.size(); k++){
 
+                        if (photos.at(p).points.at(k).at(0) == points.at(i).point_ID){
+                            
+                            LPSFile << std::to_string(p+1) << tab << points.at(i).point_ID << tab <<
+                                    photos.at(p).points.at(k).at(1) << tab << photos.at(p).points.at(k).at(2) << std::endl;
+                        }
+
+                    }
                 }
-
             }
-
         }
     }
 
