@@ -314,9 +314,9 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
 
                         if (photos.at(p).points.at(k).at(0) == points.at(i).point_ID){
                             
-                            LPSFile << std::to_string(p+1) << tab << std::to_string(point_number) << tab <<
+                            LPSFile << std::to_string(p+1) << tab << std::to_string(i+1) << tab <<
                                     photos.at(p).points.at(k).at(1) << tab << photos.at(p).points.at(k).at(2) << std::endl;
-                            point_number++;
+                        
                         }
 
                     }
