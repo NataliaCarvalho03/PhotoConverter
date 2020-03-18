@@ -283,7 +283,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     std::ofstream LPSFile;
     LPSFile.open("all_pointsLPS.txt");
     std::string tab = "\t";
-    int point_number = 1;
+    int observ_number = 0;
 
     std::cout << "====================== Writing Tie Points in LPS format =============================" << std::endl;
 
@@ -316,6 +316,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
                             
                             LPSFile << std::to_string(p+1) << tab << std::to_string(i+1) << tab <<
                                     photos.at(p).points.at(k).at(1) << tab << photos.at(p).points.at(k).at(2) << std::endl;
+                            break;
                         
                         }
 
