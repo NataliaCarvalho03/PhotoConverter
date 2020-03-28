@@ -206,9 +206,13 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
     for (int i=0; i < aPhotos.size(); i++){ //Foto fixa
         for (int j=0; j < aPhotos.at(i).points.size(); j++){// ponto fixo
 
-            std::string ID = aPhotos.at(i).points.at(j).at(0);
+            std::string ID = aPhotos.at(i).points.at(j).at(0); // ID do ponto fixo
             std::vector<std::vector<std::string>> points_aux; // Coordenadas dos pontos homologos identificados
+            std::vector<std::string> point_coord; point_coord.push_back(aPhotos.at(i).points.at(j).at(1));
+            point_coord.push_back(aPhotos.at(i).points.at(j).at(2));
+            points_aux.push_back(point_coord);
             std::vector<std::string> photos_ID_aux; //Identificadores das fotos nas quais o ponto foi observado
+            photos_ID_aux.push_back(aPhotos.at(i).ID);
             tiePoint new_tie(ID, photos_ID_aux, points_aux);
 
             for (int photo = i+1; photo < aPhotos.size(); photo++){ //Proximas fotos
