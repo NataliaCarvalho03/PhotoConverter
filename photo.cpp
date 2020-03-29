@@ -202,37 +202,60 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
     std::cout << "====================== Organizing Tie Points =============================" << std::endl;
 
     std::vector<tiePoint> my_ties;
+    bool point_registered = false;
 
     for (int i=0; i < aPhotos.size(); i++){ //Foto fixa
         for (int j=0; j < aPhotos.at(i).points.size(); j++){// ponto fixo
 
             std::string ID = aPhotos.at(i).points.at(j).at(0); // ID do ponto fixo
-            std::vector<std::vector<std::string>> points_aux; // Coordenadas dos pontos homologos identificados
-            std::vector<std::string> point_coord; point_coord.push_back(aPhotos.at(i).points.at(j).at(1));
-            point_coord.push_back(aPhotos.at(i).points.at(j).at(2));
-            points_aux.push_back(point_coord);
-            std::vector<std::string> photos_ID_aux; //Identificadores das fotos nas quais o ponto foi observado
-            photos_ID_aux.push_back(aPhotos.at(i).ID);
-            tiePoint new_tie(ID, photos_ID_aux, points_aux);
-
-            for (int photo = i+1; photo < aPhotos.size(); photo++){ //Proximas fotos
-
-                for (int point = 0; point < aPhotos.at(photo).points.size(); point++){ //Pontos nas pr�ximas fotos
-
-                    if (aPhotos.at(photo).points.at(point).at(0) == ID){
-                        //std::cout << "Encontrei!" << std::endl;
-                        new_tie.photo_ID.push_back(aPhotos.at(photo).ID);
-                        std::vector<std::string> point_aux;
-                        point_aux.push_back(aPhotos.at(photo).points.at(point).at(1));
-                        point_aux.push_back(aPhotos.at(photo).points.at(point).at(2));
-                        new_tie.points.push_back(point_aux);
-
-                    }
+            for (int pp = 0; pp < my_ties.size(); pp++){
+                if (my_ties.at(pp).point_ID == ID){
+                    point_registered = true;
+                    break;
                 }
             }
 
-            my_ties.push_back(new_tie);
-        }
+            if (!point_registered) {
+            
+                std::vector<std::vector<std::string>> points_aux; // Coordenadas dos pontos homologos identificados
+                std::vector<std::string> point_coord; point_coord.push_back(aPhotos.at(i).points.at(j).at(1));
+                point_coord.push_back(aPhotos.at(i).points.at(j).at(2));
+                points_aux.push_back(point_coord);
+                std::vector<std::string> photos_ID_aux; //Identificadores das fotos nas quais o ponto foi observado
+                photos_ID_aux.push_back(aPhotos.at(i).ID);
+                tiePoint new_tie(ID, photos_ID_aux, points_aux);
+            
+
+                for (int photo = i+1; photo < aPhotos.size(); photo++){ //Proximas fotos
+
+                    for (int point = 0; point < aPhotos.at(photo).points.size(); point++){ //Pontos nas pr�ximas fotos
+
+                        if (aPhotos.at(photo).points.at(point).at(0) == ID){
+                            //std::cout << "Encontrei!" << std::endl;
+                            new_tie.photo_ID.push_back(aPhotos.at(photo).ID);
+                            std::vector<std::string> point_aux;
+                            point_aux.push_back(aPhotos.at(photo).points.at(point).at(1));
+                            point_aux.push_back(aPhotos.at(photo).points.at(point).at(2));
+                            new_tie.points.push_back(point_aux);
+
+                        }
+                    }
+                }
+
+                std::cout << new_tie.point_ID << std::endl;
+                for (int coord = 0; coord < new_tie.points.size(); coord++){
+                    std::cout << new_tie.points.at(coord).at(0) << "\t" << new_tie.points.at(coord).at(1)
+                            << std::endl;
+                }
+
+                std::cout << "===================================================" << std::endl;
+
+                my_ties.push_back(new_tie);
+            }
+            else {
+                point_registered = false;
+                continue;
+            }
 
         std::cout << "Photo " << aPhotos.at(i).ID << "concluded!" << std::endl;
 
@@ -242,6 +265,7 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 
     return my_ties;
 
+}
 }
 
 
@@ -306,7 +330,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     }*/
 
 
-    for (int i = 0; i < points.size()/2; i++){
+    for (int i = 0; i < points.size(); i++){
 
         for (int j = 0; j < points.at(i).photo_ID.size(); j++){
 

@@ -24,6 +24,7 @@ class photo
         static std::vector<tiePoint> organizePoints(std::vector<photo> allPhotos);
         static void writeTiePoints(std::vector<tiePoint>, std::vector<photo>photos);
         static std::vector<std::string> definePhotosToBeConverted();
+        void showPhoto();
 };
 
 #endif // PHOTO_H
