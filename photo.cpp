@@ -306,7 +306,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     }*/
 
 
-    for (int i = 0; i < points.size(); i++){
+    for (int i = 0; i < points.size()/2; i++){
 
         for (int j = 0; j < points.at(i).photo_ID.size(); j++){
 

@@ -1,5 +1,6 @@
 #include "photo.h"
 #include <iostream>
+#include <fstream>
 //#include "tiePoint.h"
 
 int main(){
@@ -22,6 +23,22 @@ int main(){
     if (photosToBeConverted.at(0) == "all"){
         std::cout << "Vou escrever todas as fotos!" << std::endl;
         tiePoints = photo::organizePoints(separatedPhotos);
+
+        std::ofstream LPSFile;
+        LPSFile.open("tiePoints.txt");
+
+        /*for (int i = 0; i < tiePoints.size()/2; i++){
+
+            LPSFile << tiePoints.at(i).point_ID << std::endl;
+
+            for (int j = 0; j < tiePoints.at(i).photo_ID.size(); j++){
+
+                LPSFile << tiePoints.at(i).photo_ID.at(j) << std::endl;
+            }
+
+            LPSFile << std::endl;
+            
+        }*/
         photo::writeTiePoints(tiePoints, separatedPhotos);
     }else{
         photo::convertToLPS(photosToBeConverted, separatedPhotos);

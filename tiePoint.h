@@ -14,6 +14,8 @@ class tiePoint
 
         tiePoint(std::string p_ID, std::vector<std::string> ph_ID, std::vector<std::vector<std::string>> pts); //Construtor
 
+        void showTies();
+
 };
 
 #endif // TIEPOINT_H

@@ -9,3 +9,16 @@ tiePoint::tiePoint(std::string p_ID, std::vector<std::string> ph_ID, std::vector
     photo_ID = ph_ID;
     points = pts;
 }
+
+void tiePoint::showTies(){
+
+    std::cout << "============== Point ID ==================" << std::endl;
+
+    std::cout << (*this).point_ID << std::endl;
+
+    std::cout << "============== Photos ==================" << std::endl;
+
+    for (int i = 0; i < (*this).photo_ID.size(); i++){
+        std::cout << (*this).photo_ID.at(i) << std::endl;
+    }
+}
