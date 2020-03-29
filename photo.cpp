@@ -242,14 +242,6 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
                     }
                 }
 
-                std::cout << new_tie.point_ID << std::endl;
-                for (int coord = 0; coord < new_tie.points.size(); coord++){
-                    std::cout << new_tie.points.at(coord).at(0) << "\t" << new_tie.points.at(coord).at(1)
-                            << std::endl;
-                }
-
-                std::cout << "===================================================" << std::endl;
-
                 my_ties.push_back(new_tie);
             }
             else {
@@ -259,13 +251,12 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 
         std::cout << "Photo " << aPhotos.at(i).ID << "concluded!" << std::endl;
 
+        }
     }
-
     std::cout << "Numero de ties: " << my_ties.size() << std::endl;
 
     return my_ties;
 
-}
 }
 
 

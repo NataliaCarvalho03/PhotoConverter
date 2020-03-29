@@ -18,30 +18,13 @@ int main(){
         separatedPhotos.at(i).convertToPx();
     }
 
-    std::ofstream PhotosFile;
-    PhotosFile.open("Photos.txt");
-
-    for (int i = 0; i < separatedPhotos.size(); i++){
-
-        PhotosFile << separatedPhotos.at(i).ID << std::endl;
-
-        for (int j = 0; j < separatedPhotos.at(i).points.size(); j++){
-
-            PhotosFile << separatedPhotos.at(i).points.at(j).at(0) << "\t" << separatedPhotos.at(i).points.at(j).at(1)
-                        << "\t" << separatedPhotos.at(i).points.at(j).at(2) << std::endl;
-        }
-
-        PhotosFile << std::endl << "-99" << std::endl;
-        
-    }
-
     std::vector<tiePoint> tiePoints;
 
     if (photosToBeConverted.at(0) == "all"){
         std::cout << "Vou escrever todas as fotos!" << std::endl;
         tiePoints = photo::organizePoints(separatedPhotos);
 
-        std::ofstream LPSFile;
+        /*std::ofstream LPSFile;
         LPSFile.open("tiePoints.txt");
 
         for (int i = 0; i < tiePoints.size(); i++){
@@ -55,7 +38,7 @@ int main(){
 
             LPSFile << std::endl;
             
-        }
+        }*/
         photo::writeTiePoints(tiePoints, separatedPhotos);
     }else{
         photo::convertToLPS(photosToBeConverted, separatedPhotos);
