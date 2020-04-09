@@ -248,10 +248,9 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
                 point_registered = false;
                 continue;
             }
+        }
 
         std::cout << "Photo " << aPhotos.at(i).ID << "concluded!" << std::endl;
-
-        }
     }
     std::cout << "Numero de ties: " << my_ties.size() << std::endl;
 
