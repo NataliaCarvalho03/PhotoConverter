@@ -1,0 +1,5 @@
+Ponto no LPS	Ponto no Metashape
+1	C1
+1	C1
+2	Check1
+2	Check1

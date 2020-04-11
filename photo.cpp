@@ -298,70 +298,93 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 
 void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photos){
 
-    std::ofstream LPSFile;
+    std::ofstream LPSFile, GCPFile;
     LPSFile.open("all_pointsLPS.txt");
+    GCPFile.open("PontosDeApoio.txt");
     std::string tab = "\t";
-    int observ_number = 0;
+    std::string GCP_ID, Check_ID;
+    int observ_number = 0, image_pos=0, number_points = 0;
 
     std::cout << "====================== Writing Tie Points in LPS format =============================" << std::endl;
 
-    /*for (int i = 0; i < photos.size(); i++){
-        for (int j = 0; j < points.size(); j++){
-            for (int k = 0; k < points.at(j).photo_ID.size(); k++){
+    std::cout << "Letra Inicial do ID dos pontos de apoio: ";
+    std::cin >> GCP_ID;
 
-                if (photos.at(i).ID == points.at(j).photo_ID.at(k)){
-                    LPSFile << std::to_string(i+1) << tab << points.at(j).points.at(k).at(0) <<
-                        tab << std::to_string(i+1) << tab << points.at(j).points.at(k).at(1) << std::endl;
-                }
+    std::cout << "Letra Inicial do ID dos pontos verificação: ";
+    std::cin >> Check_ID;
 
-            }
-            
-        }
-    }*/
-
+    GCPFile << "Ponto no LPS" << tab << "Ponto no Metashape" << std::endl;
 
     for (int i = 0; i < points.size(); i++){
 
-        for (int j = 0; j < points.at(i).photo_ID.size(); j++){
+        if (points.at(i).point_ID.find(GCP_ID) != std::string::npos ||
+            points.at(i).point_ID.find(Check_ID) != std::string::npos){
+            
+                number_points++;
 
-            for (int p = 0; p < photos.size(); p++){
+            for (int j = 0; j < points.at(i).photo_ID.size(); j++){
 
-                if (photos.at(p).ID == points.at(i).photo_ID.at(j)){
+                for (int p = 0; p < photos.size(); p++){
 
-                    for (int k = 0; k < photos.at(p).points.size(); k++){
+                    if (photos.at(p).ID == points.at(i).photo_ID.at(j)){
 
-                        if (photos.at(p).points.at(k).at(0) == points.at(i).point_ID){
-                            
-                            LPSFile << std::to_string(p+1) << tab << std::to_string(i+1) << tab <<
-                                    photos.at(p).points.at(k).at(1) << tab << photos.at(p).points.at(k).at(2) << std::endl;
-                            break;
-                        
-                        }
+                        image_pos = p+1;
+                        break;
 
-                    }
+                    }                    
                 }
-            }
-        }
-    }
 
-    /*for (int i = 0; i < points.size(); i++){ //Ponto
-        
-        for (int j = 0; j < photos.size(); j++){ //Photo
-
-            for (int k = 0; k < photos.at(j).points.size(); k++){ //Point in Photo
-
-                if(points.at(i).point_ID == photos.at(j).points.at(k).at(0)){
-
-                    LPSFile << std::to_string(j+1) << tab << photos.at(j).points.at(k).at(1) <<
-                        tab << std::to_string(j+1) << tab << photos.at(j).points.at(k).at(2) << std::endl;
-
-                }
+                LPSFile << std::to_string(image_pos) << tab << std::to_string(i+1) << tab <<
+                                points.at(i).points.at(j).at(0) << tab << points.at(i).points.at(j).at(1) << std::endl;
+                
+                GCPFile << std::to_string(i+1) << tab << points.at(i).point_ID << std::endl;
             }
 
             
+            
         }
-    }*/
+    }
+
+    GCPFile.close();
+
+
+    for (int i = 0; i < points.size(); i++){
+        
+            if (points.at(i).point_ID.find(GCP_ID) != std::string::npos ||
+                points.at(i).point_ID.find(Check_ID) != std::string::npos){
+                continue;
+            } else {
+
+                for (int j = 0; j < points.at(i).photo_ID.size(); j++){
+
+                    for (int p = 0; p < photos.size(); p++){
+
+                        if (photos.at(p).ID == points.at(i).photo_ID.at(j)){
+
+                            for (int k = 0; k < photos.at(p).points.size(); k++){
+
+                                if (photos.at(p).points.at(k).at(0) == points.at(i).point_ID){
+                                    
+                                    LPSFile << std::to_string(p+1) << tab << std::to_string(i+1) << tab <<
+                                            photos.at(p).points.at(k).at(1) << tab << photos.at(p).points.at(k).at(2) << std::endl;
+                                    break;
+                                
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+            }
+    }
+    
+    
 
     LPSFile.close();
+
+    std::cout << "======================== ATENÇÃO! ========================" << std::endl;
+
+    std::cout << "Os primeiros " << number_points << " são controle e check." << std::endl;
 
 }
