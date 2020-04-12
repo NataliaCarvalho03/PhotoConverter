@@ -336,11 +336,9 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
 
                 LPSFile << std::to_string(image_pos) << tab << std::to_string(i+1) << tab <<
                                 points.at(i).points.at(j).at(0) << tab << points.at(i).points.at(j).at(1) << std::endl;
-                
-                GCPFile << std::to_string(i+1) << tab << points.at(i).point_ID << std::endl;
             }
 
-            
+            GCPFile << std::to_string(i+1) << tab << points.at(i).point_ID << std::endl;
             
         }
     }
