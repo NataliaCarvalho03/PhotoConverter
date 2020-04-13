@@ -333,7 +333,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
                     }                    
                 }
 
-                GCPFile << std::to_string(image_pos) << tab << points.at(i).point_ID << tab <<
+                GCPFile << points.at(i).point_ID << tab << std::to_string(image_pos)  << tab << "1000" + std::to_string(i+1) <<  tab <<
                                 points.at(i).points.at(j).at(0) << tab << points.at(i).points.at(j).at(1) << std::endl;
             }
 
