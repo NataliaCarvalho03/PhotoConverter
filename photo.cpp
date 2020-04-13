@@ -299,11 +299,11 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photos){
 
     std::ofstream LPSFile, GCPFile;
-    LPSFile.open("all_pointsLPS.txt");
-    GCPFile.open("PontosDeApoio.txt");
+    LPSFile.open("tie_pointsLPS.txt");
+    GCPFile.open("GCP_ImagePoints.txt");
     std::string tab = "\t";
     std::string GCP_ID, Check_ID;
-    int observ_number = 0, image_pos=0, number_points = 0;
+    int observ_number = 0, image_pos=0, number_points = 0, tie_cont = 0;
 
     std::cout << "====================== Writing Tie Points in LPS format =============================" << std::endl;
 
@@ -313,7 +313,6 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     std::cout << "Letra Inicial do ID dos pontos verificação: ";
     std::cin >> Check_ID;
 
-    GCPFile << "Ponto no LPS" << tab << "Ponto no Metashape" << std::endl;
 
     for (int i = 0; i < points.size(); i++){
 
@@ -334,16 +333,16 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
                     }                    
                 }
 
-                LPSFile << std::to_string(image_pos) << tab << std::to_string(i+1) << tab <<
+                GCPFile << std::to_string(image_pos) << tab << points.at(i).point_ID << tab <<
                                 points.at(i).points.at(j).at(0) << tab << points.at(i).points.at(j).at(1) << std::endl;
             }
 
-            GCPFile << std::to_string(i+1) << tab << points.at(i).point_ID << std::endl;
+            
             
         }
     }
 
-    GCPFile.close();
+    
 
 
     for (int i = 0; i < points.size(); i++){
@@ -363,7 +362,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
 
                                 if (photos.at(p).points.at(k).at(0) == points.at(i).point_ID){
                                     
-                                    LPSFile << std::to_string(p+1) << tab << std::to_string(i+1) << tab <<
+                                    LPSFile << std::to_string(p+1) << tab << std::to_string(tie_cont+1) << tab <<
                                             photos.at(p).points.at(k).at(1) << tab << photos.at(p).points.at(k).at(2) << std::endl;
                                     break;
                                 
@@ -375,6 +374,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
                 }
 
             }
+        tie_cont++;
     }
     
     
@@ -383,6 +383,8 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
 
     std::cout << "======================== ATENÇÃO! ========================" << std::endl;
 
-    std::cout << "Os primeiros " << number_points << " são controle e check." << std::endl;
+    std::cout << "Pontos de apoio e verificação: " << number_points << std::endl;
+    std::cout << "Pontos Tie: " << tie_cont << std::endl;
+    
 
 }

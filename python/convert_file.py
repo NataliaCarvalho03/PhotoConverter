@@ -1,5 +1,5 @@
 #GCP_coord = open('LPS_GCP.txt', 'w')
-Metashape_data = open('GCPMetashpe.txt', 'r')
+Metashape_data = open('GCPs.txt', 'r')
 equivalence_relat = open('../PontosDeApoio.txt', 'r')
 
 Metashape_list = []
