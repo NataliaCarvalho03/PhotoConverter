@@ -299,8 +299,8 @@ std::vector<tiePoint> photo::organizePoints(std::vector<photo> aPhotos){
 void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photos){
 
     std::ofstream LPSFile, GCPFile;
-    LPSFile.open("tie_pointsLPS.txt");
-    GCPFile.open("GCP_ImagePoints.txt");
+    LPSFile.open("saida/tie_pointsLPS.txt");
+    GCPFile.open("saida/GCP_ImagePoints.txt");
     std::string tab = "\t";
     std::string GCP_ID, Check_ID;
     int observ_number = 0, image_pos=0, number_points = 0, tie_cont = 0;

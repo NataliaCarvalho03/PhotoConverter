@@ -1,6 +1,6 @@
 #GCP_coord = open('LPS_GCP.txt', 'w')
 Metashape_data = open('GCPs.txt', 'r')
-equivalence_relat = open('../PontosDeApoio.txt', 'r')
+equivalence_relat = open('../saida/1Faixa/GCP_ImagePoints.txt', 'r')
 
 Metashape_list = []
 LPS_list = []
