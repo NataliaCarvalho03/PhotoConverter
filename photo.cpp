@@ -310,8 +310,8 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
     std::cout << "Letra Inicial do ID dos pontos de apoio: ";
     std::cin >> GCP_ID;
 
-    std::cout << "Letra Inicial do ID dos pontos de apoio: ";
-    std::cin >> GCP_ID;
+    std::cout << "Letra Inicial do ID dos pontos de verificação: ";
+    std::cin >> Check_ID;
 
     std::cout << "Identificador numerico para GCPs no LPS: ";
     std::cin >> LPS_GCP_ID;
@@ -345,6 +345,8 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
         }
     }
 
+    GCPFile.close();
+
     
 
 
@@ -352,7 +354,7 @@ void photo::writeTiePoints(std::vector<tiePoint> points, std::vector<photo>photo
         
             if (points.at(i).point_ID.find(GCP_ID) != std::string::npos ||
                 points.at(i).point_ID.find(Check_ID) != std::string::npos){
-                continue;
+                    continue;
             } else {
 
                 for (int j = 0; j < points.at(i).photo_ID.size(); j++){
